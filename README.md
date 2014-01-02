@@ -7,3 +7,6 @@ First step. Google "Python Twitter API"
 
 This looks promising...
 https://code.google.com/p/python-twitter/
+
+But first we need http client library...
+https://code.google.com/p/httplib2/
