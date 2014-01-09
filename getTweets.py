@@ -14,21 +14,6 @@ print ("PMR_consumer_secret = "+PMRkeys.PMR_consumer_secret)
 print ("PMR_access_token = " + PMRkeys.PMR_access_token)
 print ("PMR_access_secret = "+PMRkeys.PMR_access_secret)
 # -------------- end test ---------------
-'''
-# set search url for twitter
-# based on python library 'requests' - documentation here: http://docs.python-requests.org/en/latest/user/authentication/
-search_url = 'https://api.twitter.com/1.1/search/tweets.json?q=%40museweb'
-auth = OAuth1(PMRkeys.PMR_consumer_key, PMRkeys.PMR_consumer_secret,PMRkeys.PMR_access_token,PMRkeys.PMR_access_secret )
-auth_response=requests.get(search_url, auth=auth)
-print ('auth_response.text')
-print (auth_response.text)
-print ('---------------')
-# get as json. See documentation here: http://docs.python-requests.org/en/latest/user/quickstart/
-print ('auth_response.json()')
-auth_json = auth_response.json()
-print (auth_json)
-print ('---------------')
-'''
 
 # ------------- search twitter as a function ---------------
 def search_tweets (term,t_type,count) : # params - term=what to search for. type is how to search. Count = number of tweets (max 100)
@@ -49,12 +34,24 @@ def search_tweets (term,t_type,count) : # params - term=what to search for. type
     auth = OAuth1(PMRkeys.PMR_consumer_key, PMRkeys.PMR_consumer_secret,PMRkeys.PMR_access_token,PMRkeys.PMR_access_secret )
     auth_response=requests.get(search_url, auth=auth)
     print ('auth_response.text')
-    print (auth_response.text)
-    print ('---------------')
-    # get as json. See documentation here: http://docs.python-requests.org/en/latest/user/quickstart/
-    print ('auth_response.json()')
-    auth_json = auth_response.json()
-    print (auth_json)
-    print ('---------------')
+    #print (auth_response.text)
+    j = (auth_response.text)
+    js = json.loads(j)
+    c = int(count)
+    x=0
+    while (x<c):
+        print ('while loop - x = '+str(x))
+        ourResult = js['statuses'][x]['text']
+        print ('---------------')
+        #print ('print js: ')
+        #print (js)
+        print ('---------------')
+        print ('tweet '+str(x+1)+' of '+str(c)+' = ')
+        print (ourResult)
+        x=x+1
+    
+    
+    
+    
 # ------------- end search twitter -------------------------
-search_tweets('museweb','username','2') 
+search_tweets('museweb','username','5') 
