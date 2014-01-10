@@ -4,6 +4,7 @@ from requests_oauthlib import OAuth1
 from requests_oauthlib import OAuth1Session
 import PMRkeys #PMRkeys is a separate local .py file with the Twitter Application Oauth credentials listed (not here for obvious reasons!) 
 import json # will be needed to handle json
+
 # ------------- search twitter as a function ---------------
 def search_tweets (term,t_type,count) : # params: term= 'what to search for' type = 'how to search' Count = 'number of tweets' (max 100)    search_url_root='https://api.twitter.com/1.1/search/tweets.json?q='
     # check what type the search term is
@@ -29,13 +30,21 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
     c = int(count)
     x=0
     while (x<c):
-        ourResult = js['statuses'][x]['text']
+        print ('---------------')
+        tweet_id = js['statuses'][x]['id']
+        print ('Tweet '+str(x+1)+' of '+str(c)+'. Tweet id: '+str(tweet_id))
+        name = js['statuses'][x]['user']['name']
+        user = js['statuses'][x]['user']['screen_name']
+        username= '@'+user
+        print ('From:'+username+'('+name+')')
+        tweet = js['statuses'][x]['text']
         # print ('print js: ')
         # print (js)
-        print ('---------------')
-        print ('tweet '+str(x+1)+' of '+str(c)+' = ')
-        print (ourResult)
+        print (tweet)
         x=x+1
     print ('---------------')  
+    
+    
+    
 # ------------- end search twitter -------------------------
-search_tweets('museweb','username','15') 
+search_tweets('rosemarybeetle','username','15') 
