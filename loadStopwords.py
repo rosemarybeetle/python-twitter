@@ -5,9 +5,9 @@ Ws= requests.get('https://docs.google.com/spreadsheet/pub?key=0AgTXh43j7oFVdFByY
 yy= Ws.text
 stopwords = yy.splitlines()
 
-print ('yy --------')
+print ('full list returned --------')
 print (yy)
-print ('zz --------')
+print ('stopwords --------')
 print (stopwords)
 print ('--------')
 swCount=0
