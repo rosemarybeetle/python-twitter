@@ -5,6 +5,10 @@ from requests_oauthlib import OAuth1Session
 import PMRkeys #PMRkeys is a separate local .py file with the Twitter Application Oauth credentials listed (not here for obvious reasons!) 
 import json # will be needed to handle json
 
+# ---------- define variables
+adminURL='https://docs.google.com/spreadsheet/pub?key=0AgTXh43j7oFVdGp1NmxJVXVHcGhIel9CNUxJUk8yYXc&output=csv'
+#  ----------- end -------------
+
 # ------------- search twitter as a function ---------------
 def search_tweets (term,t_type,count) : # params: term= 'what to search for' type = 'how to search' Count = 'number of tweets' (max 100)    search_url_root='https://api.twitter.com/1.1/search/tweets.json?q='
     # check what type the search term is
@@ -23,8 +27,8 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
     print ()
     auth = OAuth1(PMRkeys.PMR_consumer_key, PMRkeys.PMR_consumer_secret,PMRkeys.PMR_access_token,PMRkeys.PMR_access_secret )
     auth_response=requests.get(search_url, auth=auth)
-    # print ('auth_response.text') - uncomment to check the text is returning as expected
-    # print (auth_response.text) - uncomment to check the text is returning as expected
+    # print ('auth_response.text') # - uncomment to check the text is returning as expected
+    # print (auth_response.text) # - uncomment to check the text is returning as expected
     j = (auth_response.text)
     js = json.loads(j)
     c = int(count)
@@ -44,7 +48,31 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
         x=x+1
     print ('---------------')  
     
-    
-    
 # ------------- end search twitter -------------------------
-search_tweets('rosemarybeetle','username','15') 
+
+# ------------- retrieve any google spreadsheet as data ----
+def retrieveArray (url):
+    stopWords = []
+    Ws= requests.get(url)
+    yy= Ws.text
+    stopwords = yy.splitlines()
+
+    print ('stopwords ------------')
+    print (stopwords)
+    print ('--------')
+
+    print ('full list returned raw with line breaks --------')
+    print (yy)
+    print ('stopwords --------')
+    print (stopwords)
+    print ('--------')
+    swCount=0
+    for count in stopwords:
+        swCount+=1
+    print ('count  -----')
+    print ('count = '+str(swCount))
+    # end retrieveArray
+    
+# ------------- end retrieve data ---------------------------
+search_tweets('musetech','hashtag','15')
+retrieveArray(adminURL)
