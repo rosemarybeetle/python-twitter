@@ -98,7 +98,6 @@ def loadAdmin (url):
 
 # ------------- retrieve any google spreadsheet as data ----
 def retrieveArray (url):
-    stopWords = []
     Ws= requests.get(url)
     yy= Ws.text
     global results
@@ -121,10 +120,10 @@ def retrieveArray (url):
     # end retrieveArray
     
 # ------------- end retrieve data ---------------------------
-search_tweets('musetech','hashtag','15')
+
 loadAdmin (adminURL)
-print ('---- stopwords ------------')
 retrieveArray(stopwordsURL)
+search_tweets(searchTerm,searchType,tweetNum)
 print ('-------99999999  end   9999-------')
 print ('searchTerm = ')
 print (searchTerm)
@@ -138,4 +137,8 @@ print ('introText')
 print (introText)
 print ('text2')
 print (text2)
+
+
+print ('---- stopwords ------------')
+
 
