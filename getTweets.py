@@ -7,6 +7,14 @@ import json # will be needed to handle json
 
 # ---------- define variables
 adminURL='https://docs.google.com/spreadsheet/pub?key=0AgTXh43j7oFVdGp1NmxJVXVHcGhIel9CNUxJUk8yYXc&output=csv'
+stopwordsURL ='https://docs.google.com/spreadsheet/pub?key=0AgTXh43j7oFVdEJGSWJNRXJJQVc5ZVo2cHNGRFJ3WVE&output=csv'
+searchTerm=""
+searchType=""
+tweetNum=""
+harvestPeriod=""
+introText=""
+text2=""
+
 #  ----------- end -------------
 
 # ------------- search twitter as a function ---------------
@@ -50,24 +58,33 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
     
 # ------------- end search twitter -------------------------
 
+# ------------- get admin settings--------------------------
+def loadAdmin (url):
+    retrieveArray(adminURL)
+    ss=results[0]
+    print ('ss = ')
+    print (ss)
+# ----------------------------------------------------------
+
 # ------------- retrieve any google spreadsheet as data ----
 def retrieveArray (url):
     stopWords = []
     Ws= requests.get(url)
     yy= Ws.text
-    stopwords = yy.splitlines()
+    global results
+    results = yy.splitlines()
 
     print ('stopwords ------------')
-    print (stopwords)
+    print (results)
     print ('--------')
 
     print ('full list returned raw with line breaks --------')
     print (yy)
     print ('stopwords --------')
-    print (stopwords)
+    print (results)
     print ('--------')
     swCount=0
-    for count in stopwords:
+    for count in results:
         swCount+=1
     print ('count  -----')
     print ('count = '+str(swCount))
@@ -75,4 +92,7 @@ def retrieveArray (url):
     
 # ------------- end retrieve data ---------------------------
 search_tweets('musetech','hashtag','15')
-retrieveArray(adminURL)
+loadAdmin (adminURL)
+print ('---- stopwords ------------')
+retrieveArray(stopwordsURL)
+
