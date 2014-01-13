@@ -61,9 +61,39 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
 # ------------- get admin settings--------------------------
 def loadAdmin (url):
     retrieveArray(adminURL)
-    ss=results[0]
-    print ('ss = ')
-    print (ss)
+    
+    st=results[0] # get search term
+    aa=st.split(',')
+    global searchTerm
+    searchTerm =aa[1]
+    
+    stype=results[1] # get search term
+    bb=stype.split(',')
+    global searchType
+    searchType =bb[1]
+    
+    tNum=results[2] # get search term
+    cc=tNum.split(',')
+    global tweetNum
+    tweetNum =cc[1]
+
+    hPeriod=results[3] # get search term
+    dd=hPeriod.split(',')
+    global harvestPeriod
+    harvestPeriod =dd[1]
+    
+    iText=results[4] # get search term
+    ee=iText.split(',')
+    global introText
+    introText =ee[1]
+    
+    t2=results[5] # get search term
+    ff=t2.split(',')
+    global text2
+    text2 =ff[1]
+
+   
+    
 # ----------------------------------------------------------
 
 # ------------- retrieve any google spreadsheet as data ----
@@ -95,4 +125,17 @@ search_tweets('musetech','hashtag','15')
 loadAdmin (adminURL)
 print ('---- stopwords ------------')
 retrieveArray(stopwordsURL)
+print ('-------99999999  end   9999-------')
+print ('searchTerm = ')
+print (searchTerm)
+print ('searchType = ')
+print (searchType)
+print ('tweetNum')
+print (tweetNum)
+print ('harvestPeriod')
+print (harvestPeriod)
+print ('introText')
+print (introText)
+print ('text2')
+print (text2)
 
