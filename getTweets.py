@@ -21,6 +21,51 @@ text2=""
 def search_tweets (term,t_type,count) : # params: term= 'what to search for' type = 'how to search' Count = 'number of tweets' (max 100)    search_url_root='https://api.twitter.com/1.1/search/tweets.json?q='
     # check what type the search term is
     search_url_root='https://api.twitter.com/1.1/search/tweets.json?q='
+    x= term.find('#')
+    y=term.find('@')
+    if x==0 : #  this is checking if the first character is a hashtag
+        print ('searching twitter API for hashtag: '+term)
+        term2 = term.split('#')[1] # strip off the hash
+        term='%23'+term2 # add unicode for # sign (%40) if a hashtag search term
+    else:
+        if y==0:
+            print ('searching twitter API for username: @'+term)
+            term3 = term.split('@')[1] # strip off the hash
+            term='%40'+term3 # strip off the @ sign
+        else:
+            print ('searching for term: '+term) # or just search!
+    search_url=str(search_url_root+term+'&count='+count)
+    print ('---------------------------')
+    print ()
+    auth = OAuth1(PMRkeys.PMR_consumer_key, PMRkeys.PMR_consumer_secret,PMRkeys.PMR_access_token,PMRkeys.PMR_access_secret )
+    auth_response=requests.get(search_url, auth=auth)
+    # print ('auth_response.text') # - uncomment to check the text is returning as expected
+    # print (auth_response.text) # - uncomment to check the text is returning as expected
+    j = (auth_response.text)
+    js = json.loads(j)
+    c = int(count)
+    x=0
+    while (x<c):
+        print ('---------------')
+        tweet_id = js['statuses'][x]['id']
+        print ('Tweet '+str(x+1)+' of '+str(c)+'. Tweet id: '+str(tweet_id))
+        name = js['statuses'][x]['user']['name']
+        user = js['statuses'][x]['user']['screen_name']
+        username= '@'+user
+        print ('From:'+username+'('+name+')')
+        tweet = js['statuses'][x]['text']
+        # print ('print js: ')
+        # print (js)
+        print (tweet)
+        x=x+1
+    print ('---------------')  
+    
+# ------------- end search twitter -------------------------
+
+# ------------- search twitter as a function 2---------------
+def search_tweets_2 (term,t_type,count) : # params: term= 'what to search for' type = 'how to search' Count = 'number of tweets' (max 100)    search_url_root='https://api.twitter.com/1.1/search/tweets.json?q='
+    # check what type the search term is
+    search_url_root='https://api.twitter.com/1.1/search/tweets.json?q='
     if t_type=='username':
         print ('searching twitter API for term: @'+term)
         term='%40'+term # add unicode for @ sign (%40) if a username search term
@@ -56,7 +101,7 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
         x=x+1
     print ('---------------')  
     
-# ------------- end search twitter -------------------------
+# ------------- end search twitter 2-------------------------
 
 # ------------- get admin settings--------------------------
 def loadAdmin (url):
