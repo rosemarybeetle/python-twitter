@@ -37,28 +37,31 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
     search_url=str(search_url_root+term+'&count='+count)
     print ('---------------------------')
     print ()
-    auth = OAuth1(PMRkeys.PMR_consumer_key, PMRkeys.PMR_consumer_secret,PMRkeys.PMR_access_token,PMRkeys.PMR_access_secret )
-    auth_response=requests.get(search_url, auth=auth)
-    # print ('auth_response.text') # - uncomment to check the text is returning as expected
-    # print (auth_response.text) # - uncomment to check the text is returning as expected
-    j = (auth_response.text)
-    js = json.loads(j)
-    c = int(count)
-    x=0
-    while (x<c):
-        print ('---------------')
-        tweet_id = js['statuses'][x]['id']
-        print ('Tweet '+str(x+1)+' of '+str(c)+'. Tweet id: '+str(tweet_id))
-        name = js['statuses'][x]['user']['name']
-        user = js['statuses'][x]['user']['screen_name']
-        username= '@'+user
-        print ('From:'+username+'('+name+')')
-        tweet = js['statuses'][x]['text']
-        # print ('print js: ')
-        # print (js)
-        print (tweet)
-        x=x+1
-    print ('---------------')  
+    try:
+        auth = OAuth1(PMRkeys.PMR_consumer_key, PMRkeys.PMR_consumer_secret,PMRkeys.PMR_access_token,PMRkeys.PMR_access_secret )
+        auth_response=requests.get(search_url, auth=auth)
+        # print ('auth_response.text') # - uncomment to check the text is returning as expected
+        # print (auth_response.text) # - uncomment to check the text is returning as expected
+        j = (auth_response.text)
+        js = json.loads(j)
+        c = int(count)
+        x=0
+        while (x<c):
+            print ('---------------')
+            tweet_id = js['statuses'][x]['id']
+            print ('Tweet '+str(x+1)+' of '+str(c)+'. Tweet id: '+str(tweet_id))
+            name = js['statuses'][x]['user']['name']
+            user = js['statuses'][x]['user']['screen_name']
+            username= '@'+user
+            print ('From:'+username+'('+name+')')
+            tweet = js['statuses'][x]['text']
+            # print ('print js: ')
+            # print (js)
+            print (tweet)
+            x=x+1
+    except KeyError:
+        print ('twitter search terms broke the API')
+        print ('---------------')  
     
 # ------------- end search twitter -------------------------
 
