@@ -1,4 +1,5 @@
 import requests
+import saveTweets
 import requests_oauthlib
 from requests_oauthlib import OAuth1
 from requests_oauthlib import OAuth1Session
@@ -14,6 +15,14 @@ tweetNum=""
 harvestPeriod=""
 introText=""
 text2=""
+
+saveTweet=saveTweets.saveTweet
+'''def saveTweet (tw):
+    tweets = open('tweetstore.txt', 'a')
+    tweets.write(tw)
+    tweets.write('\n')
+    tweets.close()
+'''
 
 #  ----------- end -------------
 
@@ -58,7 +67,10 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
                 tweet = js['statuses'][x]['text']
                 # print ('print js: ')
                 # print (js)
-                print (tweet)                
+                print (tweet)
+                fullTweet='{"tweet_id": "'+str(tweet_id)+'","username": "'+str(username)+'","screen_name": "'+str(name)+'","tweet_text": "'+str(tweet)+'" } '
+                saveTweet(fullTweet)
+                
             except UnicodeEncodeError:
                 print ('Tweet text not available - dodgy term in tweet broke the API')
                 print ('---------------')
@@ -152,6 +164,5 @@ print (text2)
 
 
 print ('---- stopwords ------------')
-
 
 
