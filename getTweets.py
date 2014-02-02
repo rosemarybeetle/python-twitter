@@ -1,5 +1,6 @@
 import requests
 import saveTweets
+import saveTweetsCSV
 import requests_oauthlib
 from requests_oauthlib import OAuth1
 from requests_oauthlib import OAuth1Session
@@ -17,12 +18,7 @@ introText=""
 text2=""
 
 saveTweet=saveTweets.saveTweet
-'''def saveTweet (tw):
-    tweets = open('tweetstore.txt', 'a')
-    tweets.write(tw)
-    tweets.write('\n')
-    tweets.close()
-'''
+saveTweetCSV=saveTweetsCSV.saveTweet
 
 #  ----------- end -------------
 
@@ -65,12 +61,13 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
                 username= '@'+user
                 print ('From:'+username+'('+name+')')
                 tweet = js['statuses'][x]['text']
-                # print ('print js: ')
-                # print (js)
+                # following line gets rid of Twitter line breaks...
+                tweet=tweet.replace("\n","")
                 print (tweet)
                 fullTweet='{"tweet_id": "'+str(tweet_id)+'","username": "'+str(username)+'","screen_name": "'+str(name)+'","tweet_text": "'+str(tweet)+'" } '
                 saveTweet(fullTweet)
-                
+                fullTweetCSV=str(tweet_id)+','+str(username)+','+str(name)+','+str(tweet)
+                saveTweetCSV(fullTweetCSV)  
             except UnicodeEncodeError:
                 print ('Tweet text not available - dodgy term in tweet broke the API')
                 print ('---------------')
@@ -132,9 +129,9 @@ def retrieveArray (url):
     print ('--------')
 
     print ('full list returned raw with line breaks --------')
-    print (yy)
+    #print (yy)
     print ('stopwords --------')
-    print (results)
+    # print (results)
     print ('--------')
     swCount=0
     for count in results:
