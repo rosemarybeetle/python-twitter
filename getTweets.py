@@ -4,8 +4,10 @@ import saveTweetsCSV
 import requests_oauthlib
 from requests_oauthlib import OAuth1
 from requests_oauthlib import OAuth1Session
+from threading import Timer
 import PMRkeys #PMRkeys is a separate local .py file with the Twitter Application Oauth credentials listed (not here for obvious reasons!) 
 import json # will be needed to handle json
+
 
 # ---------- define variables
 adminURL='https://docs.google.com/spreadsheet/pub?key=0AgTXh43j7oFVdGp1NmxJVXVHcGhIel9CNUxJUk8yYXc&output=csv'
@@ -148,7 +150,13 @@ def retrieveArray (url):
 
 loadAdmin (adminURL)
 retrieveArray(stopwordsURL)
-search_tweets(searchTerm,searchType,tweetNum)
+def keeplooping():
+    search_tweets(searchTerm,searchType,tweetNum)
+    Timer(30, keeplooping).start()
+
+keeplooping()
+
+#search_tweets(searchTerm,searchType,tweetNum)
 print ('-------99999999  end   9999-------')
 print ('searchTerm = ')
 print (searchTerm)
@@ -165,3 +173,5 @@ print (text2)
 
 
 print ('---- stopwords ------------')
+
+
