@@ -1,5 +1,6 @@
 import requests
 import saveTweets
+import saveLastTweetId
 import saveTweetsCSV
 import requests_oauthlib
 from requests_oauthlib import OAuth1
@@ -21,6 +22,7 @@ text2=""
 
 saveTweet=saveTweets.saveTweet
 saveTweetCSV=saveTweetsCSV.saveTweet
+saveTweetId=saveLastTweetId.saveTweetId
 
 #  ----------- end -------------
 
@@ -33,12 +35,12 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
     if x==0 : #  this is checking if the first character is a hashtag
         print ('searching twitter API for hashtag: '+term)
         term2 = term.split('#')[1] # strip off the hash
-        term='%23'+term2 # add unicode for # sign (%40) if a hashtag search term
+        term='%23'+term2 # add unicode for # sign (%23) if a hashtag search term
     else:
         if y==0:
             print ('searching twitter API for username: @'+term)
-            term3 = term.split('@')[1] # strip off the hash
-            term='%40'+term3 # strip off the @ sign
+            term3 = term.split('@')[1] # strip off the @
+            term='%40'+term3 # add unicode for @ sign (%40) if a username search
         else:
             print ('searching for term: '+term) # or just search!
     search_url=str(search_url_root+term+'&count='+count)
@@ -53,6 +55,7 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
         js = json.loads(j)
         c = int(count)
         x=0
+        lastTweetId=""
         while (x<c):
             try:
                 print ('---------------')
@@ -78,9 +81,12 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
                 print ('Tweet text not available - dodgy term in tweet broke the API')
                 print ('---------------')
             x=x+1
+            lastTweetId=str(tweet_id)
+            
     except KeyError:
         print ('twitter search terms broke the API')
         print ('---------------')
+    saveTweetId (lastTweetId)
     
     
 # ------------- end search twitter -------------------------
