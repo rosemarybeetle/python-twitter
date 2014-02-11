@@ -64,7 +64,11 @@ def search_tweets (term,t_type,count) : # params: term= 'what to search for' typ
                 # following line gets rid of Twitter line breaks...
                 tweet=tweet.replace("\n","")
                 print (tweet)
-                fullTweet='{"tweet_id": "'+str(tweet_id)+'","username": "'+str(username)+'","screen_name": "'+str(name)+'","tweet_text": "'+str(tweet)+'" } '
+                if (c-x>1):
+                    fullTweet='{"tweet_id": "'+str(tweet_id)+'","username": "'+str(username)+'","screen_name": "'+str(name)+'","tweet_text": "'+str(tweet)+'" }, '
+                else:
+                    fullTweet='{"tweet_id": "'+str(tweet_id)+'","username": "'+str(username)+'","screen_name": "'+str(name)+'","tweet_text": "'+str(tweet)+'" } '
+                
                 saveTweet(fullTweet)
                 fullTweetCSV=str(tweet_id)+','+str(username)+','+str(name)+','+str(tweet)
                 saveTweetCSV(fullTweetCSV)  
@@ -161,5 +165,3 @@ print (text2)
 
 
 print ('---- stopwords ------------')
-
-
